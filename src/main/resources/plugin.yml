@@ -1,0 +1,6 @@
+name: WitheringDarkness
+version: ${project.version}
+main: com.lojosho.witheringdarkness.WitheringDarkness
+api-version: 1.16
+authors: [ LoJoSho ]
+description: Players take damage if they are in the dark, stay clear!
