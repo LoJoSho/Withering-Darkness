@@ -1,29 +1,31 @@
 package com.lojosho.witheringdarkness;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
-public final class WitheringDarkness extends JavaPlugin implements Listener {
+import java.util.Objects;
+
+public final class WitheringDarkness extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getServer().getPluginManager().registerEvents(this, this);
+        //getServer().getPluginManager().registerEvents(this, this);
         this.saveDefaultConfig();
+        BukkitScheduler scheduler = getServer().getScheduler();
+        scheduler.scheduleSyncRepeatingTask(this, this::RunCheck, 0L, 20L);
     }
-
-    @EventHandler
-    public void PlayerMovement(PlayerMoveEvent e) {
-        if (!e.isCancelled()) {
-            if (e.getPlayer().getGameMode() == GameMode.SURVIVAL) {
-                Location CheckBlock = e.getPlayer().getLocation();
+    public void RunCheck() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getGameMode() == GameMode.SURVIVAL) {
+                Location checkBlock = player.getLocation();
                 int lightRequired = this.getConfig().getInt("LightLevelRequired");
-                if (CheckBlock.getBlock().getLightLevel() <= lightRequired) {
+                if (checkBlock.getBlock().getLightLevel() <= lightRequired) {
                     int damageGiven = this.getConfig().getInt("DamageGiven");
-                    e.getPlayer().damage(damageGiven);
+                    Objects.requireNonNull(player.getPlayer()).damage(damageGiven);
                 }
             }
         }
