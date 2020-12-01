@@ -1,2 +1,3 @@
+TicksPerCheck: 20 #20 Ticks = 1 second
 LightLevelRequired: 5
 DamageGiven: 1

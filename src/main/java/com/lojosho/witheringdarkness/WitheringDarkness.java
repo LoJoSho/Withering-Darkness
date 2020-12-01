@@ -15,18 +15,18 @@ public final class WitheringDarkness extends JavaPlugin {
         // Plugin startup logic
         //getServer().getPluginManager().registerEvents(this, this);
         this.saveDefaultConfig();
+        int tickpercheck = this.getConfig().getInt("TicksPerCheck");
         BukkitScheduler scheduler = getServer().getScheduler();
-        scheduler.scheduleSyncRepeatingTask(this, this::RunCheck, 0L, 20L);
+        scheduler.scheduleSyncRepeatingTask(this, this::RunCheck, 0L, tickpercheck);
     }
+
     public void RunCheck() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.getGameMode() == GameMode.SURVIVAL) {
-                Location checkBlock = player.getLocation();
-                int lightRequired = this.getConfig().getInt("LightLevelRequired");
-                if (checkBlock.getBlock().getLightLevel() <= lightRequired) {
-                    int damageGiven = this.getConfig().getInt("DamageGiven");
-                    Objects.requireNonNull(player.getPlayer()).damage(damageGiven);
-                }
+            int damageGiven = this.getConfig().getInt("DamageGiven");
+            int lightRequired = this.getConfig().getInt("LightLevelRequired");
+            Location checkBlock = player.getLocation();
+            if (player.getGameMode() == GameMode.SURVIVAL && checkBlock.getBlock().getLightLevel() <= lightRequired) {
+                Objects.requireNonNull(player.getPlayer()).damage(damageGiven);
             }
         }
     }
