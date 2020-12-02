@@ -1,3 +1,11 @@
+Enabled: True #This doesn't do anything. Will do something in a future update.
 TicksPerCheck: 20 #20 Ticks = 1 second
-LightLevelRequired: 5
-DamageGiven: 1
+TicksPerMessage: 100 #5 Seconds
+BlockLightRequired: 5 #Set to 15+ to disable
+SkyLightRequired: 5 #Set to 15+ to disable
+DamageGiven: 1 #1 = 1/2 heart
+Disabled-worlds:
+  - world1
+  - world2
+  - world3
+Damage-Message: "&8Darkness &7- &cYou are taking damage from the darkness, place some torches"

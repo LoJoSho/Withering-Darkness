@@ -1,6 +1,11 @@
 name: WitheringDarkness
 version: ${project.version}
 main: com.lojosho.witheringdarkness.WitheringDarkness
-api-version: 1.16
+api-version: 1.13
 authors: [ LoJoSho ]
 description: Players take damage if they are in the dark, stay clear!
+prefix: WitheringDarkness
+permissions:
+  wd.immune:
+    description: Immunity against damage in the dark
+    default: op
