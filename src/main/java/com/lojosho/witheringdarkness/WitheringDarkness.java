@@ -3,6 +3,7 @@ package com.lojosho.witheringdarkness;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -25,7 +26,7 @@ public final class WitheringDarkness extends JavaPlugin {
             int damageGiven = this.getConfig().getInt("DamageGiven");
             int lightRequired = this.getConfig().getInt("LightLevelRequired");
             Location checkBlock = player.getLocation();
-            if (player.getGameMode() == GameMode.SURVIVAL && checkBlock.getBlock().getLightLevel() <= lightRequired) {
+            if (player.getGameMode() == GameMode.SURVIVAL && checkBlock.getBlock().getLightLevel() <= lightRequired && player.getLocation().getWorld().getWorldType() == WorldType.NORMAL) {
                 Objects.requireNonNull(player.getPlayer()).damage(damageGiven);
             }
         }
