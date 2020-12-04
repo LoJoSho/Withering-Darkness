@@ -1,4 +1,4 @@
-Enabled: True #This doesn't do anything. Will do something in a future update.
+Enabled: True #Weather the plugin will load the timers setup in the plugin.
 TicksPerCheck: 20 #20 Ticks = 1 second
 TicksPerMessage: 100 #5 Seconds
 BlockLightRequired: 5 #Set to 15+ to disable
@@ -9,3 +9,6 @@ Disabled-worlds:
   - world2
   - world3
 Damage-Message: "&8Darkness &7- &cYou are taking damage from the darkness, place some torches"
+Toggle-Message-Off: "&7Withering Darkness has been turned &coff"
+Toggle-Message-On: "&7Withering Darkness has been turned &aon"
+bstats: true #Send statistics to bstats. Withering Darkness has the ID of 9552

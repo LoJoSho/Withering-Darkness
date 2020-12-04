@@ -5,7 +5,19 @@ api-version: 1.13
 authors: [ LoJoSho ]
 description: Players take damage if they are in the dark, stay clear!
 prefix: WitheringDarkness
+commands:
+    wd:
+      description: A simple help menu
+    wd toggle:
+      description: toggles the plugin
+      permission: wd.admin
+    wd message:
+      description: Shows the damage message
+      permission: wd.admin
 permissions:
   wd.immune:
     description: Immunity against damage in the dark
+    default: op
+  wd.admin:
+    description: Adminstrator access to the plugin
     default: op
