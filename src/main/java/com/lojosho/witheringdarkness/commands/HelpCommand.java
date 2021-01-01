@@ -8,7 +8,8 @@ import org.bukkit.command.CommandSender;
 public class HelpCommand implements CommandExecutor {
 
     private final WitheringDarkness plugin;
-    public  HelpCommand(WitheringDarkness plugin) {
+
+    public HelpCommand(WitheringDarkness plugin) {
         this.plugin = plugin;
     }
 
@@ -18,7 +19,6 @@ public class HelpCommand implements CommandExecutor {
             sender.sendMessage("Withering Darkness Helpful Commands");
             sender.sendMessage("/wd toggle - Toggles the plugin, requires a restart");
             sender.sendMessage("/wd message - View the damage message");
-            sender.sendMessage("");
         }
         return false;
     }

@@ -10,57 +10,69 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.List;
-import java.util.Objects;
+
+// I really need to go back to optimize a few things... oh god have mercy on my soul
 
 public final class WitheringDarkness extends JavaPlugin {
 
+    int damageGiven = this.getConfig().getInt("DamageGiven");
+    List<String> disabledWorlds = this.getConfig().getStringList("Disabled-worlds");
+    String damageMessage = this.getConfig().getString("Damage-Message");
+    int tickPerCheck = this.getConfig().getInt("TicksPerCheck");
+    int ticksPerMessage = this.getConfig().getInt("TicksPerMessage");
+    int blockLightRequired = this.getConfig().getInt("BlockLightRequired");
+    int skyLightRequired = this.getConfig().getInt("SkyLightRequired");
+    String potionAppplied = this.getConfig().getString("TypeofEffect");
+    int potionDuration = this.getConfig().getInt("EffectDuration");
+    int potionAmplifier = this.getConfig().getInt("EffectAmplifier");
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
         this.saveDefaultConfig();
-        int tickpercheck = this.getConfig().getInt("TicksPerCheck");
-        int tickspermessage = this.getConfig().getInt("TicksPerMessage");
+        registerCommands();
         if (this.getConfig().getBoolean("Enabled")) {
             BukkitScheduler scheduler = getServer().getScheduler();
-            scheduler.scheduleSyncRepeatingTask(this, this::RunCheck, 0L, tickpercheck);
-            scheduler.scheduleSyncRepeatingTask(this, this::runMessage, 0L, tickspermessage);
-        }
-        if (Bukkit.getVersion().contains("1.13")) {
-            getLogger().info("1.13 is an experimental version. It has a high chance to work, however, isn't 100%.");
-        }
-        if (Bukkit.getVersion().contains("1.14")) {
-            getLogger().info("1.14 is an experimental version. It has a high chance to work, however, isn't 100%.");
-        }
-        if (Bukkit.getVersion().contains("1.15")) {
-            getLogger().info("1.15 is an experimental version. It has a high chance to work, however, isn't 100%.");
+            scheduler.scheduleSyncRepeatingTask(this, this::lightCheck, 0L, tickPerCheck);
+            scheduler.scheduleSyncRepeatingTask(this, this::runMessage, 0L, ticksPerMessage);
         }
         if (this.getConfig().getBoolean("bstats")) {
             int pluginId = 9552; // <-- Replace with the id of your plugin!
             Metrics metrics = new Metrics(this, pluginId);
         }
-        registerCommands();
     }
 
-    int damageGiven = this.getConfig().getInt("DamageGiven");
-    int BlockLightRequired = this.getConfig().getInt("BlockLightRequired");
-    int SkyLightRequired = this.getConfig().getInt("SkyLightRequired");
-    List<String> DisabledWorlds = this.getConfig().getStringList("Disabled-worlds");
-    String damageMessage = this.getConfig().getString("Damage-Message");
+    
 
-    public void RunCheck() {
+    public void registerCommands() {
+        getCommand("wd").setExecutor(new ToggleCommand(this));
+        getCommand("wd").setExecutor(new HelpCommand(this));
+        getCommand("wd").setExecutor(new MessageTest(this));
+    }
+
+    public void lightCheck() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Location checkBlock = player.getLocation();
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 {
-                    if (!DisabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
-                        if (checkBlock.getBlock().getLightLevel() <= BlockLightRequired) {
+                    if (!disabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
+                        if (checkBlock.getBlock().getLightLevel() <= blockLightRequired) {
                             player.damage(damageGiven);
+                            if (this.getConfig().getBoolean("PotionsEnabled")) {
+                                PotionEffectType potionEffects = PotionEffectType.getByName(potionAppplied);
+                                player.addPotionEffect(new PotionEffect(potionEffects, potionDuration, potionAmplifier));
+                            }
                         } else {
-                            if (checkBlock.getBlock().getLightLevel() <= SkyLightRequired) {
+                            if (checkBlock.getBlock().getLightLevel() <= skyLightRequired) {
                                 player.damage(damageGiven);
+                                if (this.getConfig().getBoolean("PotionsEnabled")) {
+                                    PotionEffectType potionEffects = PotionEffectType.getByName(potionAppplied);
+                                    player.addPotionEffect(new PotionEffect(potionEffects, potionDuration, potionAmplifier));
+                                }
                             }
                         }
                     }
@@ -69,16 +81,17 @@ public final class WitheringDarkness extends JavaPlugin {
         }
     }
 
+
     public void runMessage() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Location checkBlock = player.getLocation();
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 {
-                    if (!DisabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
-                        if (checkBlock.getBlock().getLightLevel() <= BlockLightRequired) {
+                    if (!disabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
+                        if (checkBlock.getBlock().getLightLevel() <= blockLightRequired) {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', damageMessage));
                         } else {
-                            if (checkBlock.getBlock().getLightLevel() <= SkyLightRequired) {
+                            if (checkBlock.getBlock().getLightLevel() <= skyLightRequired) {
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', damageMessage));
                             }
                         }
@@ -86,11 +99,5 @@ public final class WitheringDarkness extends JavaPlugin {
                 }
             }
         }
-    }
-
-    public void registerCommands() {
-        Objects.requireNonNull(getCommand("toggle")).setExecutor(new ToggleCommand(this));
-        Objects.requireNonNull(getCommand("messageTest")).setExecutor(new MessageTest(this));
-        Objects.requireNonNull(getCommand("HelpCommand")).setExecutor(new HelpCommand(this));
     }
 }

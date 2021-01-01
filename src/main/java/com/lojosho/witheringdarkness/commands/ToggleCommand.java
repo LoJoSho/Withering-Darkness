@@ -18,17 +18,15 @@ public class ToggleCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (label.equalsIgnoreCase("wd toggle")) {
             if (sender.hasPermission("wd.admin")) {
-                if (plugin.getConfig().contains("Enabled") == true) {
+                if (plugin.getConfig().contains("Enabled")) {
                     plugin.getConfig().set("Enabled", false);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Toggle-Message-Off")));
-                    plugin.reloadConfig();
-                    return true;
                 } else {
                     plugin.getConfig().set("Enabled", true);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Toggle-Message-On")));
-                    plugin.reloadConfig();
-                    return true;
                 }
+                plugin.reloadConfig();
+                return true;
             }
         }
         return false;

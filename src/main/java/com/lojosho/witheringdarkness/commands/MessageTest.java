@@ -6,9 +6,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class MessageTest implements CommandExecutor {
-    private final WitheringDarkness plugin;
+import java.util.Objects;
 
+public class MessageTest implements CommandExecutor {
+
+    private final WitheringDarkness plugin;
     public MessageTest(WitheringDarkness plugin) {
         this.plugin = plugin;
     }
@@ -17,7 +19,7 @@ public class MessageTest implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (label.equalsIgnoreCase("wd message")) {
             if (sender.hasPermission("wd.admin")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Damage-Message")));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("Damage-Message"))));
                 return true;
             }
         }
