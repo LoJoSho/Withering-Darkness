@@ -4,10 +4,10 @@ TicksPerMessage: 100 #5 Seconds
 BlockLightRequired: 5 #Set to 15+ to disable
 SkyLightRequired: 5 #Set to 15+ to disable
 DamageGiven: 1 #1 = 1/2 heart
-Disabled-worlds:
+Enabled-Worlds:
+  - world
   - world1
   - world2
-  - world3
 Damage-Message: "&8Darkness &7- &cYou are taking damage from the darkness, place some torches"
 Toggle-Message-Off: "&7Withering Darkness has been turned &coff"
 Toggle-Message-On: "&7Withering Darkness has been turned &aon"

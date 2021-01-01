@@ -21,7 +21,7 @@ import java.util.List;
 public final class WitheringDarkness extends JavaPlugin {
 
     int damageGiven = this.getConfig().getInt("DamageGiven");
-    List<String> disabledWorlds = this.getConfig().getStringList("Disabled-worlds");
+    List<String> enabledWorlds = this.getConfig().getStringList("Enabled-Worlds");
     String damageMessage = this.getConfig().getString("Damage-Message");
     int tickPerCheck = this.getConfig().getInt("TicksPerCheck");
     int ticksPerMessage = this.getConfig().getInt("TicksPerMessage");
@@ -59,7 +59,7 @@ public final class WitheringDarkness extends JavaPlugin {
             Location checkBlock = player.getLocation();
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 {
-                    if (!disabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
+                    if (enabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
                         if (checkBlock.getBlock().getLightLevel() <= blockLightRequired) {
                             player.damage(damageGiven);
                             if (this.getConfig().getBoolean("PotionsEnabled")) {
@@ -87,7 +87,7 @@ public final class WitheringDarkness extends JavaPlugin {
             Location checkBlock = player.getLocation();
             if (player.getGameMode() == GameMode.SURVIVAL) {
                 {
-                    if (!disabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
+                    if (enabledWorlds.contains(player.getWorld().getName()) && !player.hasPermission("wd.immune")) {
                         if (checkBlock.getBlock().getLightLevel() <= blockLightRequired) {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', damageMessage));
                         } else {
