@@ -16,17 +16,21 @@ public class ToggleCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (label.equalsIgnoreCase("wd toggle")) {
-            if (sender.hasPermission("wd.admin")) {
-                if (plugin.getConfig().contains("Enabled")) {
-                    plugin.getConfig().set("Enabled", false);
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Toggle-Message-Off")));
-                } else {
-                    plugin.getConfig().set("Enabled", true);
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("Toggle-Message-On")));
+        String toggleon = plugin.getConfig().getString("Toggle-Message-On");
+        String toggleoff = plugin.getConfig().getString("Toggle-Message-Off");
+        if (label.equalsIgnoreCase("wd")) {
+            if (args[0].equalsIgnoreCase("toggle")) {
+                if (sender.hasPermission("wd.admin")) {
+                    if (plugin.getConfig().contains("Enabled")) {
+                        plugin.getConfig().set("Enabled", false);
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(toggleoff)));
+                    } else {
+                        plugin.getConfig().set("Enabled", true);
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(toggleon)));
+                    }
+                    plugin.reloadConfig();
+                    return true;
                 }
-                plugin.reloadConfig();
-                return true;
             }
         }
         return false;

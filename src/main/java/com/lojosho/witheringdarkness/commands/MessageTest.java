@@ -17,10 +17,12 @@ public class MessageTest implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (label.equalsIgnoreCase("wd message")) {
-            if (sender.hasPermission("wd.admin")) {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("Damage-Message"))));
-                return true;
+        if (label.equalsIgnoreCase("wd")) {
+            if (args[0].equalsIgnoreCase("message")) {
+                if (sender.hasPermission("wd.admin")) {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(plugin.getConfig().getString("Damage-Message"))));
+                    return true;
+                }
             }
         }
         return false;

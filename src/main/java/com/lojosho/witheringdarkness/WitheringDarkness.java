@@ -1,8 +1,6 @@
 package com.lojosho.witheringdarkness;
 
-import com.lojosho.witheringdarkness.commands.HelpCommand;
-import com.lojosho.witheringdarkness.commands.MessageTest;
-import com.lojosho.witheringdarkness.commands.ToggleCommand;
+import com.lojosho.witheringdarkness.commands.Commands;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,24 +33,20 @@ public final class WitheringDarkness extends JavaPlugin {
     public void onEnable() {
         this.saveDefaultConfig();
         registerCommands();
-        if (this.getConfig().getBoolean("Enabled")) {
-            BukkitScheduler scheduler = getServer().getScheduler();
-            scheduler.scheduleSyncRepeatingTask(this, this::lightCheck, 0L, tickPerCheck);
-            scheduler.scheduleSyncRepeatingTask(this, this::runMessage, 0L, ticksPerMessage);
-        }
+        BukkitScheduler scheduler = getServer().getScheduler();
+        scheduler.cancelTasks(this);
+        scheduler.scheduleSyncRepeatingTask(this, this::lightCheck, 0L, tickPerCheck);
+        scheduler.scheduleSyncRepeatingTask(this, this::runMessage, 0L, ticksPerMessage);
         if (this.getConfig().getBoolean("bstats")) {
             int pluginId = 9552; // <-- Replace with the id of your plugin!
             Metrics metrics = new Metrics(this, pluginId);
         }
     }
 
-    
-
     public void registerCommands() {
-        getCommand("wd").setExecutor(new ToggleCommand(this));
-        getCommand("wd").setExecutor(new HelpCommand(this));
-        getCommand("wd").setExecutor(new MessageTest(this));
+        getCommand("wd").setExecutor(new Commands(this));
     }
+
 
     public void lightCheck() {
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -80,8 +74,6 @@ public final class WitheringDarkness extends JavaPlugin {
             }
         }
     }
-
-
     public void runMessage() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Location checkBlock = player.getLocation();

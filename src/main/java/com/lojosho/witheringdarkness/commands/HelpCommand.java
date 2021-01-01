@@ -16,9 +16,11 @@ public class HelpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(label.equalsIgnoreCase("wd")) {
-            sender.sendMessage("Withering Darkness Helpful Commands");
-            sender.sendMessage("/wd toggle - Toggles the plugin, requires a restart");
-            sender.sendMessage("/wd message - View the damage message");
+            if (args[0].equalsIgnoreCase("help")) {
+                sender.sendMessage("Withering Darkness Helpful Commands");
+                sender.sendMessage("/wd message - View the damage message");
+                sender.sendMessage("/wd reload - reloads the plugin");
+            }
         }
         return false;
     }

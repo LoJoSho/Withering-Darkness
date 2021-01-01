@@ -1,4 +1,3 @@
-Enabled: True #Weather the plugin will load the timers setup in the plugin.
 TicksPerCheck: 20 #20 Ticks = 1 second
 TicksPerMessage: 100 #5 Seconds
 BlockLightRequired: 5 #Set to 15+ to disable
@@ -9,12 +8,13 @@ Enabled-Worlds:
   - world1
   - world2
 Damage-Message: "&8Darkness &7- &cYou are taking damage from the darkness, place some torches"
-Toggle-Message-Off: "&7Withering Darkness has been turned &coff"
-Toggle-Message-On: "&7Withering Darkness has been turned &aon"
-bstats: true #Send statistics to bstats. Withering Darkness has the ID of 9552
+bstats: true #https://bstats.org/plugin/bukkit/Withering%20Darkness/9552
 # Effects
 PotionsEnabled: true
 TypeofEffect: BLINDNESS #See all effects here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
 EffectDuration: 100 # In Ticks how much the effect will last, 20 ticks = 1 second
 EffectAmplifier: 1 # How much to amplify the potion effect.
-
+# Strings
+Help1: "Withering Darkness Helpful Commands"
+Help2: "/wd message - View the damage message"
+Help3: "/wd help - View the damage message"
